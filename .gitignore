@@ -11,3 +11,4 @@ allennlp.egg-info/
 build/
 dist/
 .mypy_cache
+python36/*
