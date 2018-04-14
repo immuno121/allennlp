@@ -12,3 +12,4 @@ build/
 dist/
 .mypy_cache
 python36/*
+bidaf/
