@@ -1,0 +1,174 @@
+/home/shasvatmukes/project/QA/repo/allennlp/bidaf/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+/home/shasvatmukes/project/QA/repo/allennlp/bidaf/lib/python3.6/site-packages/psycopg2/__init__.py:144: UserWarning: The psycopg2 wheel package will be renamed from release 2.8; in order to keep installing from binary please use "pip install psycopg2-binary" instead. For details see: <http://initd.org/psycopg/docs/install.html#binary-install-from-pypi>.
+  """)
+2018-04-14 19:07:22,015 - INFO - allennlp.common.params - random_seed = 13370
+2018-04-14 19:07:22,016 - INFO - allennlp.common.params - numpy_seed = 1337
+2018-04-14 19:07:22,017 - INFO - allennlp.common.params - pytorch_seed = 133
+2018-04-14 19:07:22,030 - INFO - allennlp.common.checks - Pytorch version: 0.3.1
+Traceback (most recent call last):
+  File "/cm/shared/apps/python/3.6.1/lib/python3.6/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/cm/shared/apps/python/3.6.1/lib/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/home/shasvatmukes/project/QA/repo/allennlp/allennlp/run.py", line 18, in <module>
+    main(prog="python -m allennlp.run")
+  File "/home/shasvatmukes/project/QA/repo/allennlp/allennlp/commands/__init__.py", line 65, in main
+    args.func(args)
+  File "/home/shasvatmukes/project/QA/repo/allennlp/allennlp/commands/train.py", line 99, in train_model_from_args
+    args.recover)
+  File "/home/shasvatmukes/project/QA/repo/allennlp/allennlp/commands/train.py", line 129, in train_model_from_file
+    return train_model(params, serialization_dir, file_friendly_logging, recover)
+  File "/home/shasvatmukes/project/QA/repo/allennlp/allennlp/commands/train.py", line 250, in train_model
+    create_serialization_dir(params, serialization_dir, recover)
+  File "/home/shasvatmukes/project/QA/repo/allennlp/allennlp/commands/train.py", line 185, in create_serialization_dir
+    raise ConfigurationError(f"Serialization directory ({serialization_dir}) already exists.  "
+allennlp.common.checks.ConfigurationError: 'Serialization directory (output_path) already exists.  Specify --recover to recover training from existing output.'
+/home/shasvatmukes/project/QA/repo/allennlp/bidaf/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+/home/shasvatmukes/project/QA/repo/allennlp/bidaf/lib/python3.6/site-packages/psycopg2/__init__.py:144: UserWarning: The psycopg2 wheel package will be renamed from release 2.8; in order to keep installing from binary please use "pip install psycopg2-binary" instead. For details see: <http://initd.org/psycopg/docs/install.html#binary-install-from-pypi>.
+  """)
+2018-04-14 19:07:30,263 - INFO - allennlp.models.archival - extracting archive file /home/shasvatmukes/.allennlp/datasets/aHR0cHM6Ly9zMy11cy13ZXN0LTIuYW1hem9uYXdzLmNvbS9hbGxlbm5scC9tb2RlbHMvYmlkYWYtbW9kZWwtMjAxNy4wOS4xNS1jaGFycGFkLnRhci5neg==.bc6cc08ed491c6ac831bf363f7312fc1-6 to temp dir /tmp/tmprnv36fgm
+2018-04-14 19:07:30,860 - INFO - allennlp.data.vocabulary - Loading token dictionary from /tmp/tmprnv36fgm/vocabulary.
+2018-04-14 19:07:30,973 - INFO - allennlp.common.params - model.type = bidaf
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.type = basic
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.type = embedding
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.num_embeddings = None
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.vocab_namespace = tokens
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.embedding_dim = 100
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.pretrained_file = None
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.projection_dim = None
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.trainable = False
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.padding_index = None
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.max_norm = None
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.norm_type = 2.0
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.scale_grad_by_freq = False
+2018-04-14 19:07:30,974 - INFO - allennlp.common.params - model.text_field_embedder.tokens.sparse = False
+2018-04-14 19:07:31,656 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.type = character_encoding
+2018-04-14 19:07:31,656 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.num_embeddings = 262
+2018-04-14 19:07:31,656 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.vocab_namespace = token_characters
+2018-04-14 19:07:31,656 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.embedding_dim = 16
+2018-04-14 19:07:31,656 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.pretrained_file = None
+2018-04-14 19:07:31,656 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.projection_dim = None
+2018-04-14 19:07:31,657 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.trainable = True
+2018-04-14 19:07:31,657 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.padding_index = None
+2018-04-14 19:07:31,657 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.max_norm = None
+2018-04-14 19:07:31,657 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.norm_type = 2.0
+2018-04-14 19:07:31,657 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.scale_grad_by_freq = False
+2018-04-14 19:07:31,657 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.sparse = False
+2018-04-14 19:07:31,657 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.type = cnn
+2018-04-14 19:07:31,658 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.embedding_dim = 16
+2018-04-14 19:07:31,658 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.output_dim = None
+2018-04-14 19:07:31,658 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.num_filters = 100
+2018-04-14 19:07:31,658 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.conv_layer_activation = relu
+2018-04-14 19:07:31,658 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.ngram_filter_sizes = [5]
+2018-04-14 19:07:31,660 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.dropout = 0.2
+2018-04-14 19:07:31,660 - INFO - allennlp.common.params - model.num_highway_layers = 2
+2018-04-14 19:07:31,660 - INFO - allennlp.common.params - model.phrase_layer.type = lstm
+2018-04-14 19:07:31,660 - INFO - allennlp.common.params - model.phrase_layer.batch_first = True
+2018-04-14 19:07:31,661 - INFO - allennlp.common.params - Converting Params object to dict; logging of default values will not occur when dictionary parameters are used subsequently.
+2018-04-14 19:07:31,661 - INFO - allennlp.common.params - CURRENTLY DEFINED PARAMETERS: 
+2018-04-14 19:07:31,661 - INFO - allennlp.common.params - model.phrase_layer.bidirectional = True
+2018-04-14 19:07:31,661 - INFO - allennlp.common.params - model.phrase_layer.input_size = 200
+2018-04-14 19:07:31,661 - INFO - allennlp.common.params - model.phrase_layer.hidden_size = 100
+2018-04-14 19:07:31,661 - INFO - allennlp.common.params - model.phrase_layer.num_layers = 1
+2018-04-14 19:07:31,661 - INFO - allennlp.common.params - model.phrase_layer.dropout = 0.2
+2018-04-14 19:07:31,661 - INFO - allennlp.common.params - model.phrase_layer.batch_first = True
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.similarity_function.type = linear
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.similarity_function.tensor_1_dim = 200
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.similarity_function.tensor_2_dim = 200
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.similarity_function.combination = x,y,x*y
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.similarity_function.activation = linear
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.modeling_layer.type = lstm
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.modeling_layer.batch_first = True
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - Converting Params object to dict; logging of default values will not occur when dictionary parameters are used subsequently.
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - CURRENTLY DEFINED PARAMETERS: 
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.modeling_layer.bidirectional = True
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.modeling_layer.input_size = 800
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.modeling_layer.hidden_size = 100
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.modeling_layer.num_layers = 2
+2018-04-14 19:07:31,664 - INFO - allennlp.common.params - model.modeling_layer.dropout = 0.2
+2018-04-14 19:07:31,665 - INFO - allennlp.common.params - model.modeling_layer.batch_first = True
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - model.span_end_encoder.type = lstm
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - model.span_end_encoder.batch_first = True
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - Converting Params object to dict; logging of default values will not occur when dictionary parameters are used subsequently.
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - CURRENTLY DEFINED PARAMETERS: 
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - model.span_end_encoder.bidirectional = True
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - model.span_end_encoder.input_size = 1400
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - model.span_end_encoder.hidden_size = 100
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - model.span_end_encoder.num_layers = 1
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - model.span_end_encoder.dropout = 0.2
+2018-04-14 19:07:31,674 - INFO - allennlp.common.params - model.span_end_encoder.batch_first = True
+2018-04-14 19:07:31,684 - INFO - allennlp.common.params - model.dropout = 0.2
+2018-04-14 19:07:31,684 - INFO - allennlp.common.params - model.initializer = []
+2018-04-14 19:07:31,684 - INFO - allennlp.common.params - model.regularizer = []
+2018-04-14 19:07:31,684 - INFO - allennlp.common.params - model.mask_lstms = True
+2018-04-14 19:07:31,686 - INFO - allennlp.nn.initializers - Initializing parameters
+2018-04-14 19:07:31,686 - INFO - allennlp.nn.initializers - Done initializing parameters; the following parameters are using their default initialization from their code
+2018-04-14 19:07:31,686 - INFO - allennlp.nn.initializers -    _highway_layer._module._layers.0.bias
+2018-04-14 19:07:31,686 - INFO - allennlp.nn.initializers -    _highway_layer._module._layers.0.weight
+2018-04-14 19:07:31,686 - INFO - allennlp.nn.initializers -    _highway_layer._module._layers.1.bias
+2018-04-14 19:07:31,686 - INFO - allennlp.nn.initializers -    _highway_layer._module._layers.1.weight
+2018-04-14 19:07:31,686 - INFO - allennlp.nn.initializers -    _matrix_attention._similarity_function._bias
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _matrix_attention._similarity_function._weight_vector
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.bias_hh_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.bias_hh_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.bias_hh_l1
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.bias_hh_l1_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.bias_ih_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.bias_ih_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.bias_ih_l1
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.bias_ih_l1_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.weight_hh_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.weight_hh_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.weight_hh_l1
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.weight_hh_l1_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.weight_ih_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.weight_ih_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.weight_ih_l1
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _modeling_layer._module.weight_ih_l1_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _phrase_layer._module.bias_hh_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _phrase_layer._module.bias_hh_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _phrase_layer._module.bias_ih_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _phrase_layer._module.bias_ih_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _phrase_layer._module.weight_hh_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _phrase_layer._module.weight_hh_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _phrase_layer._module.weight_ih_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _phrase_layer._module.weight_ih_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _span_end_encoder._module.bias_hh_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _span_end_encoder._module.bias_hh_l0_reverse
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _span_end_encoder._module.bias_ih_l0
+2018-04-14 19:07:31,687 - INFO - allennlp.nn.initializers -    _span_end_encoder._module.bias_ih_l0_reverse
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _span_end_encoder._module.weight_hh_l0
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _span_end_encoder._module.weight_hh_l0_reverse
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _span_end_encoder._module.weight_ih_l0
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _span_end_encoder._module.weight_ih_l0_reverse
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _span_end_predictor._module.bias
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _span_end_predictor._module.weight
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _span_start_predictor._module.bias
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _span_start_predictor._module.weight
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _text_field_embedder.token_embedder_token_characters._embedding._module.weight
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _text_field_embedder.token_embedder_token_characters._encoder._module.conv_layer_0.bias
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _text_field_embedder.token_embedder_token_characters._encoder._module.conv_layer_0.weight
+2018-04-14 19:07:31,688 - INFO - allennlp.nn.initializers -    _text_field_embedder.token_embedder_tokens.weight
+2018-04-14 19:07:31,733 - INFO - allennlp.common.params - dataset_reader.type = squad
+2018-04-14 19:07:31,733 - INFO - allennlp.common.params - dataset_reader.tokenizer.type = word
+2018-04-14 19:07:31,733 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.type = spacy
+2018-04-14 19:07:31,734 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.language = en_core_web_sm
+2018-04-14 19:07:31,734 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.pos_tags = False
+2018-04-14 19:07:31,734 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.parse = False
+2018-04-14 19:07:31,734 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.ner = False
+2018-04-14 19:07:32,143 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_filter.type = pass_through
+2018-04-14 19:07:32,143 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_stemmer.type = pass_through
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.tokenizer.start_tokens = None
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.tokenizer.end_tokens = None
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.type = single_id
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.namespace = tokens
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.lowercase_tokens = True
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.type = characters
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.namespace = token_characters
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.character_tokenizer.byte_encoding = utf-8
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.character_tokenizer.lowercase_characters = False
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.character_tokenizer.start_tokens = [259]
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.character_tokenizer.end_tokens = [260, 0, 0, 0, 0, 0]
+2018-04-14 19:07:32,144 - INFO - allennlp.common.params - dataset_reader.lazy = False

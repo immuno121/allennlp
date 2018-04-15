@@ -1,0 +1,78 @@
+2018-04-14 20:18:39,737 - INFO - allennlp.common.params - dataset_reader.type = squad
+2018-04-14 20:18:39,737 - INFO - allennlp.common.params - dataset_reader.tokenizer.type = word
+2018-04-14 20:18:39,737 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.type = spacy
+2018-04-14 20:18:39,737 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.language = en_core_web_sm
+2018-04-14 20:18:39,738 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.pos_tags = False
+2018-04-14 20:18:39,738 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.parse = False
+2018-04-14 20:18:39,738 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_splitter.ner = False
+2018-04-14 20:18:40,021 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_filter.type = pass_through
+2018-04-14 20:18:40,021 - INFO - allennlp.common.params - dataset_reader.tokenizer.word_stemmer.type = pass_through
+2018-04-14 20:18:40,021 - INFO - allennlp.common.params - dataset_reader.tokenizer.start_tokens = None
+2018-04-14 20:18:40,021 - INFO - allennlp.common.params - dataset_reader.tokenizer.end_tokens = None
+2018-04-14 20:18:40,021 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.type = single_id
+2018-04-14 20:18:40,021 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.namespace = tokens
+2018-04-14 20:18:40,021 - INFO - allennlp.common.params - dataset_reader.token_indexers.tokens.lowercase_tokens = True
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.type = characters
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.namespace = token_characters
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.character_tokenizer.byte_encoding = utf-8
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.character_tokenizer.lowercase_characters = False
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.character_tokenizer.start_tokens = [259]
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - dataset_reader.token_indexers.token_characters.character_tokenizer.end_tokens = [260]
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - dataset_reader.lazy = False
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - validation_dataset_reader = None
+2018-04-14 20:18:40,022 - INFO - allennlp.common.params - train_data_path = data/train.json
+2018-04-14 20:18:40,022 - INFO - allennlp.commands.train - Reading training data from data/train.json
+2018-04-14 20:18:40,027 - INFO - allennlp.data.dataset_readers.reading_comprehension.squad - Reading file at data/train.json
+2018-04-14 20:18:40,687 - INFO - allennlp.data.dataset_readers.reading_comprehension.squad - Reading the dataset
+2018-04-14 20:19:43,546 - INFO - allennlp.common.params - validation_data_path = data/dev.json
+2018-04-14 20:19:43,546 - INFO - allennlp.commands.train - Reading validation data from data/dev.json
+2018-04-14 20:19:43,547 - INFO - allennlp.data.dataset_readers.reading_comprehension.squad - Reading file at data/dev.json
+2018-04-14 20:19:43,638 - INFO - allennlp.data.dataset_readers.reading_comprehension.squad - Reading the dataset
+2018-04-14 20:19:57,436 - INFO - allennlp.common.params - test_data_path = None
+2018-04-14 20:19:57,438 - INFO - allennlp.commands.train - Creating a vocabulary using train, validation data.
+2018-04-14 20:19:57,438 - INFO - allennlp.common.params - vocabulary.directory_path = None
+2018-04-14 20:19:57,438 - INFO - allennlp.common.params - vocabulary.min_count = None
+2018-04-14 20:19:57,438 - INFO - allennlp.common.params - vocabulary.max_vocab_size = None
+2018-04-14 20:19:57,438 - INFO - allennlp.common.params - vocabulary.non_padded_namespaces = ('*tags', '*labels')
+2018-04-14 20:19:57,438 - INFO - allennlp.common.params - vocabulary.only_include_pretrained_words = False
+2018-04-14 20:19:57,438 - INFO - allennlp.data.vocabulary - Fitting token dictionary from dataset.
+2018-04-14 20:22:25,022 - INFO - allennlp.common.params - model.type = bidaf
+2018-04-14 20:22:25,022 - INFO - allennlp.common.params - model.text_field_embedder.type = basic
+2018-04-14 20:22:25,022 - INFO - allennlp.common.params - model.text_field_embedder.tokens.type = embedding
+2018-04-14 20:22:25,022 - INFO - allennlp.common.params - model.text_field_embedder.tokens.num_embeddings = None
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.vocab_namespace = tokens
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.embedding_dim = 100
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.pretrained_file = https://s3-us-west-2.amazonaws.com/allennlp/datasets/glove/glove.6B.100d.txt.gz
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.projection_dim = None
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.trainable = False
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.padding_index = None
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.max_norm = None
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.norm_type = 2.0
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.scale_grad_by_freq = False
+2018-04-14 20:22:25,023 - INFO - allennlp.common.params - model.text_field_embedder.tokens.sparse = False
+2018-04-14 20:22:25,031 - INFO - allennlp.modules.token_embedders.embedding - Reading embeddings from file
+2018-04-14 20:22:25,400 - INFO - allennlp.common.file_utils - https://s3-us-west-2.amazonaws.com/allennlp/datasets/glove/glove.6B.100d.txt.gz not found in cache, downloading to /tmp/tmp8vza5mwh
+2018-04-14 20:22:45,876 - INFO - allennlp.common.file_utils - copying /tmp/tmp8vza5mwh to cache at /home/shasvatmukes/.allennlp/datasets/aHR0cHM6Ly9zMy11cy13ZXN0LTIuYW1hem9uYXdzLmNvbS9hbGxlbm5scC9kYXRhc2V0cy9nbG92ZS9nbG92ZS42Qi4xMDBkLnR4dC5neg==.41a17724771d6127780704e81e049fc9-17
+2018-04-14 20:22:47,209 - INFO - allennlp.common.file_utils - removing temp file /tmp/tmp8vza5mwh
+2018-04-14 20:22:54,288 - INFO - allennlp.modules.token_embedders.embedding - Initializing pre-trained embedding layer
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.type = character_encoding
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.num_embeddings = 262
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.vocab_namespace = token_characters
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.embedding_dim = 16
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.pretrained_file = None
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.projection_dim = None
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.trainable = True
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.padding_index = None
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.max_norm = None
+2018-04-14 20:22:55,165 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.norm_type = 2.0
+2018-04-14 20:22:55,166 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.scale_grad_by_freq = False
+2018-04-14 20:22:55,166 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.embedding.sparse = False
+2018-04-14 20:22:55,166 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.type = cnn
+2018-04-14 20:22:55,166 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.embedding_dim = 16
+2018-04-14 20:22:55,166 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.output_dim = None
+2018-04-14 20:22:55,166 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.num_filters = 100
+2018-04-14 20:22:55,166 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.conv_layer_activation = relu
+2018-04-14 20:22:55,166 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.encoder.ngram_filter_sizes = [5]
+2018-04-14 20:22:55,168 - INFO - allennlp.common.params - model.text_field_embedder.token_characters.dropout = 0.2
+2018-04-14 20:22:55,169 - INFO - allennlp.common.params - model.num_highway_layers = 2
+2018-04-14 20:22:55,169 - INFO - allennlp.common.params - model.phrase_layer.type = stacked_self_attention
