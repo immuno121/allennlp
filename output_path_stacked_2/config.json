@@ -1,5 +1,4 @@
 {
-    "serialization_dir": "'store/bidaf/'",
     "dataset_reader": {
         "type": "squad",
         "token_indexers": {

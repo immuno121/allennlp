@@ -299,3 +299,53 @@
 2018-04-21 16:26:00,346 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 11
 2018-04-21 16:26:00,346 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 11
 2018-04-21 16:26:00,348 - INFO - allennlp.training.trainer - Training
+2018-04-21 16:38:35,348 - INFO - allennlp.training.trainer - Validating
+2018-04-21 16:39:28,084 - INFO - allennlp.training.trainer - Training loss : 2.881122    Validation loss : 2.775928 
+2018-04-21 16:39:28,086 - INFO - allennlp.training.trainer - Training span_acc : 0.476504    Validation span_acc : 0.494901 
+2018-04-21 16:39:28,086 - INFO - allennlp.training.trainer - Training start_acc : 0.570715    Validation start_acc : 0.587145 
+2018-04-21 16:39:28,087 - INFO - allennlp.training.trainer - Training end_acc : 0.620830    Validation end_acc : 0.633296 
+2018-04-21 16:39:28,087 - INFO - allennlp.training.trainer - Training em : 0.528451    Validation em : 0.548045 
+2018-04-21 16:39:28,087 - INFO - allennlp.training.trainer - Training f1 : 0.675398    Validation f1 : 0.688249 
+2018-04-21 16:39:28,087 - INFO - allennlp.training.trainer - Epoch duration: 00:13:27
+2018-04-21 16:39:28,088 - INFO - allennlp.training.trainer - Estimated training time remaining: 03:15:52
+2018-04-21 16:39:28,088 - INFO - allennlp.training.trainer - Epoch 6/19
+2018-04-21 16:39:28,088 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 7734.568
+2018-04-21 16:39:28,337 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 13227
+2018-04-21 16:39:28,337 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 11
+2018-04-21 16:39:28,337 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 11
+2018-04-21 16:39:28,337 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 11
+2018-04-21 16:39:28,340 - INFO - allennlp.training.trainer - Training
+2018-04-21 16:52:08,177 - INFO - allennlp.training.trainer - Validating
+2018-04-21 16:53:00,518 - INFO - allennlp.training.trainer - Best validation performance so far. Copying weights to 'output_path_stacked_1/best.th'.
+2018-04-21 16:53:01,034 - INFO - allennlp.training.trainer - Training loss : 2.788440    Validation loss : 2.811727 
+2018-04-21 16:53:01,034 - INFO - allennlp.training.trainer - Training span_acc : 0.486797    Validation span_acc : 0.502302 
+2018-04-21 16:53:01,036 - INFO - allennlp.training.trainer - Training start_acc : 0.583009    Validation start_acc : 0.589826 
+2018-04-21 16:53:01,037 - INFO - allennlp.training.trainer - Training end_acc : 0.630498    Validation end_acc : 0.636676 
+2018-04-21 16:53:01,037 - INFO - allennlp.training.trainer - Training em : 0.540901    Validation em : 0.557485 
+2018-04-21 16:53:01,037 - INFO - allennlp.training.trainer - Training f1 : 0.685942    Validation f1 : 0.691998 
+2018-04-21 16:53:01,037 - INFO - allennlp.training.trainer - Epoch duration: 00:13:32
+2018-04-21 16:53:01,037 - INFO - allennlp.training.trainer - Estimated training time remaining: 03:01:03
+2018-04-21 16:53:01,037 - INFO - allennlp.training.trainer - Epoch 7/19
+2018-04-21 16:53:01,038 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 7734.568
+2018-04-21 16:53:01,277 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 13227
+2018-04-21 16:53:01,278 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 11
+2018-04-21 16:53:01,278 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 11
+2018-04-21 16:53:01,278 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 11
+2018-04-21 16:53:01,280 - INFO - allennlp.training.trainer - Training
+2018-04-21 17:05:34,665 - INFO - allennlp.training.trainer - Validating
+2018-04-21 17:06:27,198 - INFO - allennlp.training.trainer - Best validation performance so far. Copying weights to 'output_path_stacked_1/best.th'.
+2018-04-21 17:06:27,770 - INFO - allennlp.training.trainer - Training loss : 2.679307    Validation loss : 2.708020 
+2018-04-21 17:06:27,771 - INFO - allennlp.training.trainer - Training span_acc : 0.500298    Validation span_acc : 0.510576 
+2018-04-21 17:06:27,773 - INFO - allennlp.training.trainer - Training start_acc : 0.594821    Validation start_acc : 0.599091 
+2018-04-21 17:06:27,773 - INFO - allennlp.training.trainer - Training end_acc : 0.641983    Validation end_acc : 0.651069 
+2018-04-21 17:06:27,773 - INFO - allennlp.training.trainer - Training em : 0.554189    Validation em : 0.566284 
+2018-04-21 17:06:27,773 - INFO - allennlp.training.trainer - Training f1 : 0.698029    Validation f1 : 0.704415 
+2018-04-21 17:06:27,774 - INFO - allennlp.training.trainer - Epoch duration: 00:13:26
+2018-04-21 17:06:27,774 - INFO - allennlp.training.trainer - Estimated training time remaining: 02:46:24
+2018-04-21 17:06:27,774 - INFO - allennlp.training.trainer - Epoch 8/19
+2018-04-21 17:06:27,774 - INFO - allennlp.training.trainer - Peak CPU memory usage MB: 7737.864
+2018-04-21 17:06:28,021 - INFO - allennlp.training.trainer - GPU 0 memory usage MB: 13227
+2018-04-21 17:06:28,022 - INFO - allennlp.training.trainer - GPU 1 memory usage MB: 11
+2018-04-21 17:06:28,022 - INFO - allennlp.training.trainer - GPU 2 memory usage MB: 11
+2018-04-21 17:06:28,022 - INFO - allennlp.training.trainer - GPU 3 memory usage MB: 11
+2018-04-21 17:06:28,024 - INFO - allennlp.training.trainer - Training
