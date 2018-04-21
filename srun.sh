@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --mem=40GB
+#SBATCH --mem-per-gpu=40GB
 #SBATCH --job-name=2-gpu-bidaf-pytorch
 #SBATCH --output=run_logs/res_%j.txt 	# output file
 #SBATCH -e run_logs/res_%j.err        	# File to which STDERR will be written
@@ -20,9 +20,9 @@ module load cuda80/toolkit/8.0.44
 ## Change this line so that it points to your bidaf github folder
 
 # Training (Default - on SQuAD)
-python -m allennlp.run train training_config/bidaf__serialization_dir__multihead_2.json -s output_path_multi_head_2
-# Evaluation (Default - on SQuAD)
-python -m allennlp.run evaluate https://s3-us-west-2.amazonaws.com/allennlp/models/bidaf-model-2017.09.15-charpad.tar.gz --evaluation-data-file data/dev.json
+python -m allennlp.run train training_config/bidaf__serialization_dir__stacked_2.json -s output_path_stacked_2 
+#Evaluation (Default - on SQuAD)
+#python -m allennlp.run evaluate https://s3-us-west-2.amazonaws.com/allennlp/models/bidaf-model-2017.09.15-charpad.tar.gz --evaluation-data-file data/dev.json
 # Evaluate on NewsQA
 #python -m allennlp.run evaluate https://s3-us-west-2.amazonaws.com/allennlp/models/bidaf-model-2017.09.15-charpad.tar.gz --evaluation-data-file "data/newsqa_raw/test-v1.1.json"
 
