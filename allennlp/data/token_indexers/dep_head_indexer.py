@@ -8,7 +8,6 @@ from allennlp.common import Params
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.tokenizers.token import Token
 from allennlp.data.token_indexers.token_indexer import TokenIndexer
-from allennlp.data.token_indexers.single_id_token_indexer import SingleIdTokenIndexer
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -41,9 +40,8 @@ class DepHeadIndexer(TokenIndexer[int]):
 
     @overrides
     def token_to_indices(self, token: Token, vocabulary: Vocabulary) -> int:
-        dep_head = token.head or 'NONE'
-        _single_id_token_indexer = SingleIdTokenIndexer()
-        dep_head_indices = _single_id_token_indexer.token_to_indices(dep_head, vocabulary)
+        dep_head = token.head or Token('NONE')
+        dep_head_indices = dep_head.i
         return dep_head_indices
 
     @overrides

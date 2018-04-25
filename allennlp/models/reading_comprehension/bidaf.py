@@ -173,7 +173,6 @@ class BidirectionalAttentionFlow(Model):
         """
 
         parse_attentionhead_layer = 0
-        print('popeye', question.keys(), passage.keys())
         ### Separate attention head labels
         question_indices = {key: value for key, value in question.items() if key!='dep_head'}
         passage_indices = {key: value for key, value in passage.items() if key!='dep_head'}
@@ -189,8 +188,6 @@ class BidirectionalAttentionFlow(Model):
         question_lstm_mask = question_mask if self._mask_lstms else None
         passage_lstm_mask = passage_mask if self._mask_lstms else None
 
-        print('popeye', 'before starting phrase layer')
-
         ## phrase layer
         phrase_layer_output_dict_question = self._phrase_layer(embedded_question, question_lstm_mask)
         phrase_layer_output_question = phrase_layer_output_dict_question['output']
@@ -205,8 +202,6 @@ class BidirectionalAttentionFlow(Model):
             phrase_layer_attention_passage  = phrase_layer_output_dict_passage ['attention']
 
         encoding_dim = encoded_question.size(-1)
-        print('popeye', 'phrase layer complete')
-
 
         ## TODO - gold parse during training
 
@@ -240,13 +235,10 @@ class BidirectionalAttentionFlow(Model):
                                           encoded_passage * passage_question_vectors,
                                           encoded_passage * tiled_question_passage_vector],
                                          dim=-1)
-        print('popeye', 'bidaf layer complete')
-
         ## modeling layer
         modeled_passage = self._dropout(self._modeling_layer(final_merged_passage, passage_lstm_mask))
         modeling_dim = modeled_passage.size(-1)
 
-        print('popeye', 'modeling layer complete')
         ## start prediction layer
         # Shape: (batch_size, passage_length, encoding_dim * 4 + modeling_dim))
         span_start_input = self._dropout(torch.cat([final_merged_passage, modeled_passage], dim=-1))
@@ -279,7 +271,6 @@ class BidirectionalAttentionFlow(Model):
         span_start_logits = util.replace_masked_values(span_start_logits, passage_mask, -1e7)
         span_end_logits = util.replace_masked_values(span_end_logits, passage_mask, -1e7)
         best_span = self.get_best_span(span_start_logits, span_end_logits)
-        print('popeye', 'prediction layer complete')
 
         ### make output dictionary
         output_dict = {
@@ -295,49 +286,35 @@ class BidirectionalAttentionFlow(Model):
         if span_start is not None:
             loss = nll_loss(util.masked_log_softmax(span_start_logits, passage_mask), span_start.squeeze(-1))
             loss += nll_loss(util.masked_log_softmax(span_end_logits, passage_mask), span_end.squeeze(-1))
-            print('initial loss')
             # Add dependency parse loss
             # TODO : change for 'gold parse in train mode' to have the original dependency head predicitons, not those set to 1
             batch_size = list(phrase_layer_output_question.size())[0]
-            print('batch size')
             if 'attention' in phrase_layer_output_dict_question:
                 gold_heads_question = question['dep_head']
                 gold_heads_passage = passage['dep_head']
                 for sample in range(batch_size):
-                    print('sample_no', sample)
                     # Add loss for each token in question
                     timesteps_question = list(phrase_layer_output_question.size())[1]
-                    print('timesteps', timesteps_question)
-                    print('batch_size x timesteps x emb_size',
-                    		list(phrase_layer_output_question.size()))
                     for attention_layer in phrase_layer_attention_question:
-	                    print('batch_size x num_heads x timesteps x timesteps',
-	                    		list(attention_layer.size()))
                     for timestep_question in range(timesteps_question):
                         gold_head_question = gold_heads_question[sample][timestep_question]
                         gold_attention = phrase_layer_attention_question[parse_attentionhead_layer]\
                         		[sample][0][timestep_question][gold_head_question]
                         loss += 1 - gold_attention
-                        print('attention_to_gold', gold_attention)
                     # Add loss for each token in passage
-                    print('timesteps', timesteps_passage)
                     timesteps_passage = list(phrase_layer_output_passage.size())[1]
                     for timestep_passage in range(timesteps_passage):
                         gold_head_passage = gold_heads_passage[sample][timestep_passage]
                         gold_attention = phrase_layer_attention_passage[parse_attentionhead_layer]\
                         		[sample][0][timestep_passage][gold_head_passage]
                         loss += 1 - gold_attention
-                        print('attention_to_gold', gold_attention)
-                    print(sample, 'complete')
 
             output_dict["loss"] = loss
 
-            print('popeye', 'loss complete')
         ### Compute Accuracies
             self._span_start_accuracy(span_start_logits, span_start.squeeze(-1))
             self._span_end_accuracy(span_end_logits, span_end.squeeze(-1))
             self._span_accuracy(best_span, torch.stack([span_start, span_end], -1))
-        print('popeye', 'accuracies complete')
 
 
         ### Compute the EM and F1 on SQuAD and add the tokenized input to the output.
