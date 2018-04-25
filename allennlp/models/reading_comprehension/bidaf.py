@@ -74,7 +74,8 @@ class BidirectionalAttentionFlow(Model):
                  dropout: float = 0.2,
                  mask_lstms: bool = True,
                  initializer: InitializerApplicator = InitializerApplicator(),
-                 regularizer: Optional[RegularizerApplicator] = None) -> None:
+                 regularizer: Optional[RegularizerApplicator] = None,
+                 parse_attentionhead_layer: int) -> None:
         super(BidirectionalAttentionFlow, self).__init__(vocab, regularizer)
 
         self._text_field_embedder = text_field_embedder
@@ -112,6 +113,8 @@ class BidirectionalAttentionFlow(Model):
         else:
             self._dropout = lambda x: x
         self._mask_lstms = mask_lstms
+
+        self.parse_attentionhead_layer = parse_attentionhead_layer
 
         initializer(self)
 
@@ -172,7 +175,6 @@ class BidirectionalAttentionFlow(Model):
             question.
         """
 
-        parse_attentionhead_layer = 0
         ### Separate attention head labels
         question_indices = {key: value for key, value in question.items() if key!='dep_head'}
         passage_indices = {key: value for key, value in passage.items() if key!='dep_head'}
@@ -298,14 +300,15 @@ class BidirectionalAttentionFlow(Model):
                     for attention_layer in phrase_layer_attention_question:
                     for timestep_question in range(timesteps_question):
                         gold_head_question = gold_heads_question[sample][timestep_question]
-                        gold_attention = phrase_layer_attention_question[parse_attentionhead_layer]\
+                        gold_attention = phrase_layer_attention_question[self.parse_attentionhead_layer]\
                         		[sample][0][timestep_question][gold_head_question]
                         loss += 1 - gold_attention
+                        print('attention --', gold_attention)	# should increase with epochs
                     # Add loss for each token in passage
                     timesteps_passage = list(phrase_layer_output_passage.size())[1]
                     for timestep_passage in range(timesteps_passage):
                         gold_head_passage = gold_heads_passage[sample][timestep_passage]
-                        gold_attention = phrase_layer_attention_passage[parse_attentionhead_layer]\
+                        gold_attention = phrase_layer_attention_passage[self.parse_attentionhead_layer]\
                         		[sample][0][timestep_passage][gold_head_passage]
                         loss += 1 - gold_attention
 
@@ -388,6 +391,7 @@ class BidirectionalAttentionFlow(Model):
         modeling_layer = Seq2SeqEncoder.from_params(params.pop("modeling_layer"))
         span_end_encoder = Seq2SeqEncoder.from_params(params.pop("span_end_encoder"))
         dropout = params.pop_float('dropout', 0.2)
+        parse_attentionhead_layer = params.pop_float('dependency_parse_head_transformer_layer', None)
 
         initializer = InitializerApplicator.from_params(params.pop('initializer', []))
         regularizer = RegularizerApplicator.from_params(params.pop('regularizer', []))
@@ -404,4 +408,5 @@ class BidirectionalAttentionFlow(Model):
                    dropout=dropout,
                    mask_lstms=mask_lstms,
                    initializer=initializer,
-                   regularizer=regularizer)
+                   regularizer=regularizer,
+                   parse_attentionhead_layer=parse_attentionhead_layer)
