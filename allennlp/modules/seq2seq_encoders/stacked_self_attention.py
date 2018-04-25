@@ -126,6 +126,15 @@ class StackedSelfAttentionEncoder(Seq2SeqEncoder):
 
     @overrides
     def forward(self, inputs: torch.Tensor, mask: torch.Tensor): # pylint: disable=arguments-differ
+        '''
+        Returns
+        -------
+        An output dictionary consisting of:
+        attention : A tensor of shape(num_layers, batch_size, num_heads, timesteps, timesteps)
+        output :
+        '''
+        output_dict = dict()
+        output_dict['attention'] = []
         if self._use_positional_encoding:
             output = add_positional_features(inputs)
         else:
@@ -148,10 +157,14 @@ class StackedSelfAttentionEncoder(Seq2SeqEncoder):
                 # layers, so we exclude it here.
                 feedforward_output = feedforward_layer_norm(feedforward_output + cached_input)
             # shape (batch_size, sequence_length, hidden_dim)
-            attention_output = attention(feedforward_output, mask)
+            attention_layer_output = attention(feedforward_output, mask)
+            attention_output = attention_layer_output['output']
+            attention = attention_layer_output['attention']
+            output_dict['attention'].append(attention)
             output = layer_norm(self.dropout(attention_output) + feedforward_output)
+        output_dict['output'] = output
 
-        return output
+        return output_dict
 
     @classmethod
     def from_params(cls, params: Params):

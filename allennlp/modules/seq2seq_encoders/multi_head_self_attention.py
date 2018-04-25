@@ -93,9 +93,12 @@ class MultiHeadSelfAttention(Seq2SeqEncoder):
 
         Returns
         -------
-        A tensor of shape (batch_size, timesteps, output_projection_dim),
+        An output dictionary consisting of:
+        attention : A tensor of shape(num_heads, batch_size, timesteps, timesteps)
+        output : A tensor of shape (batch_size, timesteps, output_projection_dim),
         where output_projection_dim = input_dim by default.
         """
+        output_dict = dict()
         num_heads = self._num_heads
 
         batch_size, timesteps, _ = inputs.size()
@@ -150,7 +153,12 @@ class MultiHeadSelfAttention(Seq2SeqEncoder):
         # Project back to original input size.
         # shape (batch_size, timesteps, input_size)
         outputs = self._output_projection(outputs)
-        return outputs
+
+        attention = attention.view(batch_size, num_heads, timesteps, timesteps)
+
+        output_dict['attention'] = attention
+        output_dict['output'] = outputs
+        return output_dict
 
     @classmethod
     def from_params(cls, params: Params) -> 'MultiHeadSelfAttention':

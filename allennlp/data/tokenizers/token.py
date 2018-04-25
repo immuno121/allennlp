@@ -38,7 +38,8 @@ class Token:
                  tag: str = None,
                  dep: str = None,
                  ent_type: str = None,
-                 text_id: int = None) -> None:
+                 text_id: int = None,
+                 head : str = None) -> None:
         self.text = text
         self.idx = idx
         self.lemma_ = lemma
@@ -47,6 +48,7 @@ class Token:
         self.dep_ = dep
         self.ent_type_ = ent_type
         self.text_id = text_id
+        self.head = head
 
     def __str__(self):
         return self.text
