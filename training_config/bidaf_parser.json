@@ -29,6 +29,7 @@
   "validation_data_path": "data/dev_sample.json",
   "model": {
     "type": "bidaf",
+    "dependency_parse_head_transformer_layer":0,
     "text_field_embedder": {
       "tokens": {
         "type": "embedding",
