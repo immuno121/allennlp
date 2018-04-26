@@ -20,7 +20,8 @@ module load cuda80/toolkit/8.0.44
 ## Change this line so that it points to your bidaf github folder
 
 # Training (Default - on SQuAD)
-python -m allennlp.run train training_config/bidaf__serialization_dir__stacked_2.json -s output_path_stacked_2 
+python -m allennlp.run train training_config/bidaf__serialization_dir__stacked_1__batch_10__layers_3.json -s output_path_stacked_1_batch_10_layers_3 
+#python -m allennlp.run train training_config/bidaf.json -s output_test
 #Evaluation (Default - on SQuAD)
 #python -m allennlp.run evaluate https://s3-us-west-2.amazonaws.com/allennlp/models/bidaf-model-2017.09.15-charpad.tar.gz --evaluation-data-file data/dev.json
 # Evaluate on NewsQA

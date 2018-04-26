@@ -171,6 +171,10 @@ class BidirectionalAttentionFlow(Model):
             string from the original passage that the model thinks is the best answer to the
             question.
         """
+        print('this is a test!...we are almost there')
+        print(list(question.keys()))  
+        print(list(passage.keys()))
+       
         embedded_question = self._highway_layer(self._text_field_embedder(question))
         embedded_passage = self._highway_layer(self._text_field_embedder(passage))
         batch_size = embedded_question.size(0)
