@@ -16,3 +16,4 @@ python36/*
 output_path*/*
 run_logs/*
 examples.jsonl
+bidaf/
