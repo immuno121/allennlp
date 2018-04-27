@@ -201,18 +201,43 @@ class BidirectionalAttentionFlow(Model):
         phrase_layer_output_dict_question = self._phrase_layer(embedded_question, question_lstm_mask)
         phrase_layer_output_question = phrase_layer_output_dict_question['output']
         encoded_question = self._dropout(phrase_layer_output_question )
-        if 'attention' in phrase_layer_output_dict_question:
+        #if 'attention' in phrase_layer_output_dict_question:
+        if parse_attentionhead_layer is not None:  
             phrase_layer_attention_question = phrase_layer_output_dict_question['attention']
 
         phrase_layer_output_dict_passage = self._phrase_layer(embedded_passage, passage_lstm_mask)
         phrase_layer_output_passage  = phrase_layer_output_dict_passage ['output']
         encoded_passage  = self._dropout(phrase_layer_output_passage )
-        if 'attention' in phrase_layer_output_dict_passage :
+        #if 'attention' in phrase_layer_output_dict_passage :
+        if parse_attentionhead_layer is not None:
             phrase_layer_attention_passage  = phrase_layer_output_dict_passage ['attention']
 
         encoding_dim = encoded_question.size(-1)
 
         ## TODO - gold parse during training
+        batch_size = list(phrase_layer_output_question.size())[0]
+        if parse_attentionhead_layer is not None:
+            gold_heads_question = question['dep_head']
+            gold_heads_passage = passage['dep_head']
+            for sample in range(batch_size):
+                    # Add loss for each token in question
+                    #timesteps_question = list(phrase_layer_output_question.size())[1]
+                    #remove_me_attention = 0
+                    #for timestep_question in range(timesteps_question):
+                    #vectorizing loss
+                    gold_head_question = gold_heads_question[sample][:]
+                    phrase_layer_attention_question[self.parse_attentionhead_layer]\
+                                [sample][0][:][gold_head_question]=1
+           
+        
+                #timesteps_passage = list(phrase_layer_output_passage.size())[1]
+                    #for timestep_passage in range(timesteps_passage):
+                    #Vectorizing loss
+                    gold_head_passage = gold_heads_passage[sample][:]
+                    phrase_layer_attention_passage[self.parse_attentionhead_layer]\
+                                [sample][0][:][gold_head_passage]=1
+ 
+    ###########################################################################
 
         ## bi-directional attention layer
         # Shape: (batch_size, passage_length, question_length)
@@ -298,30 +323,34 @@ class BidirectionalAttentionFlow(Model):
             # Add dependency parse loss
             # TODO : change for 'gold parse in train mode' to have the original dependency head predicitons, not those set to 1
             batch_size = list(phrase_layer_output_question.size())[0]
-            if 'attention' in phrase_layer_output_dict_question:
+            if parse_attentionhead_layer is not None:
                 gold_heads_question = question['dep_head']
                 gold_heads_passage = passage['dep_head']
                 for sample in range(batch_size):
                     # Add loss for each token in question
                     timesteps_question = list(phrase_layer_output_question.size())[1]
                     remove_me_attention = 0
-                    for timestep_question in range(timesteps_question):
-                        gold_head_question = gold_heads_question[sample][timestep_question]
-                        gold_attention = phrase_layer_attention_question[self.parse_attentionhead_layer]\
-                                [sample][0][timestep_question][gold_head_question]
-                        loss += self._lambda*(1 - gold_attention)
-                        remove_me_attention += gold_attention
-                    print('attention --', remove_me_attention)    # should increase with epochs
+                    #for timestep_question in range(timesteps_question):
+            #vectorizing loss
+                    gold_head_question = gold_heads_question[sample][:]
+                    gold_attention = phrase_layer_attention_question[self.parse_attentionhead_layer]\
+                                [sample][0][:][gold_head_question]
+                    loss += self._lambda*(1 - gold_attention)
+                    remove_me_attention += gold_attention
+                    #print('attention --', remove_me_attention)    # should increase with epochs
                     
                    
                     # Add loss for each token in passage
                     timesteps_passage = list(phrase_layer_output_passage.size())[1]
-                    for timestep_passage in range(timesteps_passage):
-                        gold_head_passage = gold_heads_passage[sample][timestep_passage]
-                        gold_attention = phrase_layer_attention_passage[self.parse_attentionhead_layer]\
-                                [sample][0][timestep_passage][gold_head_passage]
-                        loss += self._lambda*(1 - gold_attention)
-                       
+                    #for timestep_passage in range(timesteps_passage):
+            #Vectorizing loss
+                    gold_head_passage = gold_heads_passage[sample][:]
+                    gold_attention = phrase_layer_attention_passage[self.parse_attentionhead_layer]\
+                                [sample][0][:][gold_head_passage]
+                    loss += self._lambda*(1 - gold_attention)
+            #Normalizing loss
+                    loss=loss/timesteps_question
+                    loss=loss/timesteps_passage       
 
 
             output_dict["loss"] = loss
