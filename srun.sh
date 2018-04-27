@@ -6,7 +6,7 @@
 #
 #SBATCH --gres=gpu:2
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=mashah@cs.umass.edu
+#SBATCH --mail-user=shasvatmukes@cs.umass.edu
 echo $SLURM_JOBID - `hostname` >> ~/slurm-jobs.txt
 
 module purge
