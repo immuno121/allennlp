@@ -53,6 +53,7 @@
         "dropout": 0.2
       }
     },
+    "lambda":0.2,
     "num_highway_layers": 2,
     "phrase_layer": {
       "type": "stacked_self_attention",
