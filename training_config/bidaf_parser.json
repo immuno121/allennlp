@@ -1,4 +1,3 @@
-
 {
   "dataset_reader": {
     "type": "squad",
@@ -26,8 +25,8 @@
       }
     }
   },
-  "train_data_path": "data/train.json",
-  "validation_data_path": "data/dev.json",
+  "train_data_path": "data/train_sample.json",
+  "validation_data_path": "data/dev_sample.json",
   "model": {
     "type": "bidaf",
     "dependency_parse_head_transformer_layer":0,

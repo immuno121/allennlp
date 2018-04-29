@@ -27,7 +27,6 @@ class DepHeadIndexer(TokenIndexer[int]):
     def __init__(self, namespace: str = 'dep_heads') -> None:
         self.namespace = namespace
         self._logged_errors: Set[str] = set()
-        self.paddin_token = -1
 
     @overrides
     def count_vocab_items(self, token: Token, counter: Dict[str, Dict[str, int]]):
@@ -47,7 +46,7 @@ class DepHeadIndexer(TokenIndexer[int]):
 
     @overrides
     def get_padding_token(self) -> int:
-        return self.padding_token
+        return 0
 
     @overrides
     def get_padding_lengths(self, token: int) -> Dict[str, int]:  # pylint: disable=unused-argument
@@ -58,7 +57,7 @@ class DepHeadIndexer(TokenIndexer[int]):
                            tokens: List[int],
                            desired_num_tokens: int,
                            padding_lengths: Dict[str, int]) -> List[int]:  # pylint: disable=unused-argument
-        return pad_sequence_to_length(tokens, desired_num_tokens, default_value = self.padding_token)
+        return pad_sequence_to_length(tokens, desired_num_tokens)
 
     @classmethod
     def from_params(cls, params: Params) -> 'DepHeadIndexer':

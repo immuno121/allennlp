@@ -136,16 +136,16 @@ class MultiHeadSelfAttention(Seq2SeqEncoder):
         # Normalise the distributions, using the same mask for all heads.
         attention = last_dim_softmax(scaled_similarities, mask.repeat(1, num_heads).view(batch_size * num_heads, timesteps))
 
-        attention = attention.view(batch_size, num_heads, timesteps, timesteps)
-        output_dict['attention'] = attention
 
-        attention = self._attention_dropout(attention)
+        #attention = self._attention_dropout(attention)
 
         # Take a weighted sum of the values with respect to the attention
         # distributions for each element in the num_heads * batch_size dimension.
         # shape (num_heads * batch_size, timesteps, values_dim/num_heads)
         outputs = weighted_sum(values_per_head, attention)
 
+        attention = attention.view(batch_size, num_heads, timesteps, timesteps)
+        output_dict['attention'] = attention
         # Reshape back to original shape (batch_size, timesteps, values_dim)
         # shape (batch_size, num_heads, timesteps, values_dim/num_heads)
         outputs = outputs.view(batch_size, num_heads, timesteps, int(self._values_dim / num_heads))

@@ -85,12 +85,12 @@ class BidirectionalAttentionFlow(Model):
         self._highway_layer = TimeDistributed(Highway(text_field_embedder.get_output_dim(),
                                                       num_highway_layers))
         self._phrase_layer = phrase_layer
-        self._parse_layer=parse_layer 
+        self._parse_layer = parse_layer
         self._matrix_attention = MatrixAttention(attention_similarity_function)
         self._modeling_layer = modeling_layer
         self._span_end_encoder = span_end_encoder
 
-        encoding_dim = phrase_layer.get_output_dim()
+        encoding_dim = parse_layer.get_output_dim()
         modeling_dim = modeling_layer.get_output_dim()
         span_start_input_dim = encoding_dim * 4 + modeling_dim
         self._span_start_predictor = TimeDistributed(torch.nn.Linear(span_start_input_dim, 1))
@@ -200,113 +200,81 @@ class BidirectionalAttentionFlow(Model):
         question_lstm_mask = question_mask if self._mask_lstms else None
         passage_lstm_mask = passage_mask if self._mask_lstms else None
 
-        ## phrase layer
 
-        phrase_layer_output_question = self._phrase_layer(embedded_question, question_lstm_mask)
-        #phrase_layer_output_question = phrase_layer_output_dict_question['output']
+        ### phrase layer - question
+        phrase_layer_output_question = self._phrase_layer(embedded_question, question_lstm_mask)['output']
         encoded_question = self._dropout(phrase_layer_output_question)
 
-        ## parse layer
+        ### phrase layer - passage
+        phrase_layer_output_passage = self._phrase_layer(embedded_passage, passage_lstm_mask)['output']
+        encoded_passage  = self._dropout(phrase_layer_output_passage)
+
+
+        ### parse layer - question
         parse_layer_output_dict_question = self._parse_layer(encoded_question, question_lstm_mask)
         parse_layer_output_question = parse_layer_output_dict_question['output']
-        encoded_question = self._dropout(parse_layer_output_question )
- 
-        #if 'attention' in parse_layer_output_dict_question:
-        if self.parse_attentionhead_layer is not None:  
+        parse_encoded_question = self._dropout(parse_layer_output_question)
+
+        if self.parse_attentionhead_layer is not None:
             parse_layer_attention_question = parse_layer_output_dict_question['attention']
 
-        phrase_layer_output_dict_question = self._phrase_layer(embedded_question, question_lstm_mask)
-        phrase_layer_output_question = phrase_layer_output_dict_question['output']
-        encoded_question = self._dropout(phrase_layer_output_question )
-        if self.parse_attentionhead_layer is not None:
-            phrase_layer_attention_question = phrase_layer_output_dict_question['attention']
-
-
-        phrase_layer_output_passage = self._phrase_layer(embedded_passage, passage_lstm_mask)
-        #phrase_layer_output_passage  = phrase_layer_output_dict_passage ['output']
-        encoded_passage  = self._dropout(phrase_layer_output_passage )
-        
-        ## parse layer
+        ### parse layer - passage
         parse_layer_output_dict_passage = self._parse_layer(encoded_passage, passage_lstm_mask)
         parse_layer_output_passage = parse_layer_output_dict_passage['output']
-        encoded_passage = self._dropout(parse_layer_output_passage )
+        parse_encoded_passage = self._dropout(parse_layer_output_passage)
 
-
-        #if 'attention' in parse_layer_output_dict_passage :
         if self.parse_attentionhead_layer is not None:
-            parse_layer_attention_passage  = parse_layer_output_dict_passage ['attention']
+            parse_layer_attention_passage  = parse_layer_output_dict_passage['attention']
 
-        encoding_dim = encoded_question.size(-1)
+        encoding_dim = parse_encoded_question.size(-1)
+        print('parse layer done')
 
 
-        ## TODO - gold parse during training
-        batch_size = list(parse_layer_output_question.size())[0]
-
-        ## Gold parse during training
-        batch_size = list(phrase_layer_output_question.size())[0]
+        ### Gold parse during training
         if self.parse_attentionhead_layer is not None:
+            print(batch_size)
             gold_heads_questions = question['dep_head']
+            print(gold_heads_questions.size())
             gold_heads_passages = passage['dep_head']
-            attention_question_sum=0
-            attention_passage_sum=0
+            print(gold_heads_passages.size())
+            attention_question_sum = 0
+            attention_passage_sum = 0
+            if (gold_heads_questions < 0).byte().any():
+                print(gold_heads_questions)
+            if (gold_heads_passages < 0).byte().any():
+                print(gold_heads_passages)
             for sample in range(batch_size):
-                    # Add loss for each token in question
-                    timesteps_question = list(parse_layer_output_question.size())[1]
-                    #remove_me_attention = 0
-                    for timestep_question in range(timesteps_question):
-                    #vectorizing loss
-                           print(type(timestep_question))
-                           gold_head_question= gold_heads_questions[sample][timestep_question]
-                           print(type(gold_head_question))
-                           print(id(gold_head_question))                                         
-                    #gold_head_questions=gold_head_questions.clone()    
-                           attention_question_sum=attention_question_sum+parse_layer_attention_question[self.parse_attentionhead_layer]\
-
-
-                    #gold_head_questions=gold_head_questions.clone()
-                           attention_question_sum=attention_question_sum+phrase_layer_attention_question[self.parse_attentionhead_layer]\                                [sample][0][timestep_question][gold_head_question]
-                           print(type(attention_question_sum))
-                           print(id(attention_question_sum))
-                           print(timestep_question)
-                    #gold_head_questions=gold_head_questions.clone()
-                    #attention_question_sum=attention_question_sum/timesteps_question
-                          # phrase_layer_attention_question=phrase_layer_attention_question.clone()
-
-                           print(type(parse_layer_attention_question[self.parse_attentionhead_layer]\
-                             [sample][0][timestep_question][gold_head_question].data))     
+                # Add loss for each token in question
+                timesteps_question = list(parse_layer_output_question.size())[1]
+                print(timesteps_question)
+                for timestep_question in range(timesteps_question):
+                    gold_head_question = gold_heads_questions[sample][timestep_question]
+                    attention_question_sum = (attention_question_sum +
                            parse_layer_attention_question[self.parse_attentionhead_layer]\
-                             [sample][0][timestep_question][gold_head_question].data=torch.ones([1])
+                                      [sample][0][timestep_question][gold_head_question])
+                    # Set dep_head attention in question to 1
+                    parse_layer_attention_question[self.parse_attentionhead_layer]\
+                     [sample][0][timestep_question][gold_head_question].data=torch.ones([1])
+                attention_question_sum = attention_question_sum/timesteps_question
+                #print(attention_question_sum)
 
-           
-        
-                    timesteps_passage = list(parse_layer_output_passage.size())[1]
-
-                           print(type(phrase_layer_attention_question[self.parse_attentionhead_layer]\
-                             [sample][0][timestep_question][gold_head_question].data))
-                           phrase_layer_attention_question[self.parse_attentionhead_layer]\
-                             [sample][0][timestep_question][gold_head_question].data=torch.ones([1])
-
-
-
-                    timesteps_passage = list(phrase_layer_output_passage.size())[1]
-                    for timestep_passage in range(timesteps_passage):
-                    #Vectorizing loss
-                          gold_head_passage = gold_heads_passages[sample][timestep_passage]
-                          #print(gold_head_passage)
-                          attention_passage_sum=attention_passage_sum+parse_layer_attention_passage[self.parse_attentionhead_layer]\
-                                [sample][0][timestep_passage][gold_head_passage]
-
-                          #print(attention_passage_sum)
-                #attention_passage_sum=attention_passage_sum/timesteps_passage
+                # Add loss for each token in passage
+                timesteps_passage = list(parse_layer_output_passage.size())[1]
+                print(timesteps_passage)
+                for timestep_passage in range(timesteps_passage):
+                    gold_head_passage = gold_heads_passages[sample][timestep_passage]
+                    attention_passage_sum = (attention_passage_sum +
                           parse_layer_attention_passage[self.parse_attentionhead_layer]\
-                                [sample][0][timestep_passage][gold_head_passage].data=torch.ones([1])      
- 
+                        [sample][0][timestep_passage][gold_head_passage])
+                    # Set dep_head attention in passage to 1
+                    parse_layer_attention_passage[self.parse_attentionhead_layer]\
+                        [sample][0][timestep_passage][gold_head_passage].data=torch.ones([1])
+                attention_passage_sum = attention_passage_sum/timesteps_passage
+                #print(attention_passage_sum)
+        print('gold parse done')
 
-                          phrase_layer_attention_passage[self.parse_attentionhead_layer]\
-                                [sample][0][timestep_passage][gold_head_passage].data=torch.ones([1])
-    ###########################################################################
 
-        ## bi-directional attention layer
+        ### bi-directional attention layer
         # Shape: (batch_size, passage_length, question_length)
         passage_question_similarity = self._matrix_attention(encoded_passage, encoded_question)
         # Shape: (batch_size, passage_length, question_length)
@@ -336,11 +304,12 @@ class BidirectionalAttentionFlow(Model):
                                           encoded_passage * passage_question_vectors,
                                           encoded_passage * tiled_question_passage_vector],
                                          dim=-1)
-        ## modeling layer
-        modeled_passage = self._dropout(self._modeling_layer(final_merged_passage, passage_lstm_mask))
+        print('bidaf layer done')
+        ### modeling layer
+        modeled_passage = self._dropout(self._modeling_layer(final_merged_passage, passage_lstm_mask)['output'])
         modeling_dim = modeled_passage.size(-1)
 
-        ## start prediction layer
+        ### start prediction layer
         # Shape: (batch_size, passage_length, encoding_dim * 4 + modeling_dim))
         span_start_input = self._dropout(torch.cat([final_merged_passage, modeled_passage], dim=-1))
         # Shape: (batch_size, passage_length)
@@ -354,8 +323,9 @@ class BidirectionalAttentionFlow(Model):
         tiled_start_representation = span_start_representation.unsqueeze(1).expand(batch_size,
                                                                                    passage_length,
                                                                                    modeling_dim)
+        print('modelling layer done')
 
-        ## end prediction layer
+        ### end prediction layer
         # Shape: (batch_size, passage_length, encoding_dim * 4 + modeling_dim * 3)
         span_end_representation = torch.cat([final_merged_passage,
                                              modeled_passage,
@@ -364,7 +334,7 @@ class BidirectionalAttentionFlow(Model):
                                             dim=-1)
         # Shape: (batch_size, passage_length, encoding_dim)
         encoded_span_end = self._dropout(self._span_end_encoder(span_end_representation,
-                                                                passage_lstm_mask))
+                                                                passage_lstm_mask)['output'])
         # Shape: (batch_size, passage_length, encoding_dim * 4 + span_end_encoding_dim)
         span_end_input = self._dropout(torch.cat([final_merged_passage, encoded_span_end], dim=-1))
         span_end_logits = self._span_end_predictor(span_end_input).squeeze(-1)
@@ -372,6 +342,7 @@ class BidirectionalAttentionFlow(Model):
         span_start_logits = util.replace_masked_values(span_start_logits, passage_mask, -1e7)
         span_end_logits = util.replace_masked_values(span_end_logits, passage_mask, -1e7)
         best_span = self.get_best_span(span_start_logits, span_end_logits)
+        print('end prediction layer done')
 
         ### make output dictionary
         output_dict = {
@@ -388,21 +359,18 @@ class BidirectionalAttentionFlow(Model):
             loss = nll_loss(util.masked_log_softmax(span_start_logits, passage_mask), span_start.squeeze(-1))
             loss += nll_loss(util.masked_log_softmax(span_end_logits, passage_mask), span_end.squeeze(-1))
             # Add dependency parse loss
-
-            # TODO : change for 'gold parse in train mode' to have the original dependency head predicitons, not those set to 1
-            batch_size = list(parse_layer_output_question.size())[0]
-
             if self.parse_attentionhead_layer is not None:
-            	batch_size = list(phrase_layer_output_question.size())[0]
                 loss += self._lambda * (1 - attention_question_sum)/batch_size
                 loss += self._lambda * (1 - attention_passage_sum)/batch_size
 
             output_dict["loss"] = loss
+            print('loss done')
 
         ### Compute Accuracies
             self._span_start_accuracy(span_start_logits, span_start.squeeze(-1))
             self._span_end_accuracy(span_end_logits, span_end.squeeze(-1))
             self._span_accuracy(best_span, torch.stack([span_start, span_end], -1))
+        print('accuracies done')
 
 
         ### Compute the EM and F1 on SQuAD and add the tokenized input to the output.
@@ -425,6 +393,7 @@ class BidirectionalAttentionFlow(Model):
                     self._squad_metrics(best_span_string, answer_texts)
             output_dict['question_tokens'] = question_tokens
             output_dict['passage_tokens'] = passage_tokens
+        print('all done')
 
         return output_dict
 
