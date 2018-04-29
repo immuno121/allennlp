@@ -116,15 +116,16 @@ class BidirectionalAttentionFlow(Model):
             self._dropout = lambda x: x
         if lambdaa!=None:
             self._lambda=int(lambdaa)
-        else: 
+        else:
             self._lambda=None
         self._mask_lstms = mask_lstms
 
-        if parse_attentionhead_layer != None:
+        if parse_attentionhead_layer is not None:
             self.parse_attentionhead_layer = int(parse_attentionhead_layer)
         else:
             self.parse_attentionhead_layer = None
         initializer(self)
+
     def forward(self,  # type: ignore
                 question: Dict[str, torch.LongTensor],
                 passage: Dict[str, torch.LongTensor],
@@ -202,7 +203,7 @@ class BidirectionalAttentionFlow(Model):
         phrase_layer_output_question = phrase_layer_output_dict_question['output']
         encoded_question = self._dropout(phrase_layer_output_question )
         #if 'attention' in phrase_layer_output_dict_question:
-        if parse_attentionhead_layer is not None:  
+        if parse_attentionhead_layer is not None:
             phrase_layer_attention_question = phrase_layer_output_dict_question['attention']
 
         phrase_layer_output_dict_passage = self._phrase_layer(embedded_passage, passage_lstm_mask)
@@ -228,15 +229,15 @@ class BidirectionalAttentionFlow(Model):
                     gold_head_question = gold_heads_question[sample][:]
                     phrase_layer_attention_question[self.parse_attentionhead_layer]\
                                 [sample][0][:][gold_head_question]=1
-           
-        
+
+
                 #timesteps_passage = list(phrase_layer_output_passage.size())[1]
                     #for timestep_passage in range(timesteps_passage):
                     #Vectorizing loss
                     gold_head_passage = gold_heads_passage[sample][:]
                     phrase_layer_attention_passage[self.parse_attentionhead_layer]\
                                 [sample][0][:][gold_head_passage]=1
- 
+
     ###########################################################################
 
         ## bi-directional attention layer
@@ -337,9 +338,8 @@ class BidirectionalAttentionFlow(Model):
                                 [sample][0][:][gold_head_question]
                     loss += self._lambda*(1 - gold_attention)
                     remove_me_attention += gold_attention
-                    #print('attention --', remove_me_attention)    # should increase with epochs
-                    
-                   
+                    print('attention --', remove_me_attention)    # should increase with epochs
+
                     # Add loss for each token in passage
                     timesteps_passage = list(phrase_layer_output_passage.size())[1]
                     #for timestep_passage in range(timesteps_passage):
@@ -350,7 +350,7 @@ class BidirectionalAttentionFlow(Model):
                     loss += self._lambda*(1 - gold_attention)
             #Normalizing loss
                     loss=loss/timesteps_question
-                    loss=loss/timesteps_passage       
+                    loss=loss/timesteps_passage
 
 
             output_dict["loss"] = loss
@@ -441,7 +441,7 @@ class BidirectionalAttentionFlow(Model):
         mask_lstms = params.pop_bool('mask_lstms', True)
         params.assert_empty(cls.__name__)
         return cls(vocab=vocab,
-                   lambdaa=lambdaa,    
+                   lambdaa=lambdaa,
                    text_field_embedder=text_field_embedder,
                    num_highway_layers=num_highway_layers,
                    phrase_layer=phrase_layer,
