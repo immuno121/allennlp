@@ -124,4 +124,6 @@ class PytorchSeq2SeqWrapper(Seq2SeqEncoder):
             self._update_states(final_states, restoration_indices)
 
         # Restore the original indices and return the sequence.
-        return unpacked_sequence_tensor.index_select(0, restoration_indices)
+        output = unpacked_sequence_tensor.index_select(0, restoration_indices)
+        output_dict['output'] = output
+        return output_dict
