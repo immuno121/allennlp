@@ -242,9 +242,9 @@ class BidirectionalAttentionFlow(Model):
                     #attention_question_sum=attention_question_sum/timesteps_question
                           # phrase_layer_attention_question=phrase_layer_attention_question.clone()
                            print(type(phrase_layer_attention_question[self.parse_attentionhead_layer]\
-                             [sample][0][timestep_question][gold_head_question]))     
+                             [sample][0][timestep_question][gold_head_question].data))     
                            phrase_layer_attention_question[self.parse_attentionhead_layer]\
-                             [sample][0][timestep_question][gold_head_question].data=1
+                             [sample][0][timestep_question][gold_head_question].data=torch.ones([1])
 
            
         
@@ -259,7 +259,7 @@ class BidirectionalAttentionFlow(Model):
                           print(attention_passage_sum) 
                 #attention_passage_sum=attention_passage_sum/timesteps_passage
                           phrase_layer_attention_passage[self.parse_attentionhead_layer]\
-                                [sample][0][timestep_passage][gold_head_passage]=1      
+                                [sample][0][timestep_passage][gold_head_passage].data=torch.ones([1])      
  
     ###########################################################################
 
@@ -347,7 +347,7 @@ class BidirectionalAttentionFlow(Model):
             # Add dependency parse loss
             # TODO : change for 'gold parse in train mode' to have the original dependency head predicitons, not those set to 1
             batch_size = list(phrase_layer_output_question.size())[0]
-            if parse_attentionhead_layer is not None:
+            if self.parse_attentionhead_layer is not None:
                 gold_heads_question = question['dep_head']
                 gold_heads_passage = passage['dep_head']
                 #for sample in range(batch_size):
