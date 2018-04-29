@@ -292,11 +292,11 @@ class BidirectionalAttentionFlow(Model):
                     for timestep_passage in range(timesteps_passage):
                     #Vectorizing loss
                           gold_head_passage = gold_heads_passages[sample][timestep_passage]
-                          print(gold_head_passage)
+                          #print(gold_head_passage)
                           attention_passage_sum=attention_passage_sum+parse_layer_attention_passage[self.parse_attentionhead_layer]\
                                 [sample][0][timestep_passage][gold_head_passage]
 
-                          print(attention_passage_sum)
+                          #print(attention_passage_sum)
                 #attention_passage_sum=attention_passage_sum/timesteps_passage
                           parse_layer_attention_passage[self.parse_attentionhead_layer]\
                                 [sample][0][timestep_passage][gold_head_passage].data=torch.ones([1])      
