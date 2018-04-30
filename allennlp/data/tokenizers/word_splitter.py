@@ -186,7 +186,17 @@ class SpacyWordSplitter(WordSplitter):
     @overrides
     def split_words(self, sentence: str) -> List[Token]:
         # This works because our Token class matches spacy's.
-        return [t for t in self.spacy(sentence) if not t.is_space]
+        s_sentence = self.spacy(sentence)
+        tokens = [token for token in s_sentence]
+        ####### remove_me #######
+        is_space_count = len([token for token in tokens if token.is_space])
+        len_sent = len([token for token in tokens if not token.is_space])
+        max_head_index = max([token.head.i for token in tokens])
+        print('spacy is_space_count, len_ent, max_head_index:', is_space_count, len_sent, max_head_index)
+        if max_head_index >= len_sent:
+        	print('Tabahiiii')
+        #########################
+        return tokens
 
     @classmethod
     def from_params(cls, params: Params) -> 'WordSplitter':

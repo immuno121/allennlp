@@ -232,44 +232,59 @@ class BidirectionalAttentionFlow(Model):
 
         ### Gold parse during training
         if self.parse_attentionhead_layer is not None:
-            print(batch_size)
+            #print('parse layer attention question')
+            #print(parse_layer_attention_question)
+            #print('question_mask')
+            #print(question_mask)
+            print('batch_size', batch_size)
             gold_heads_questions = question['dep_head']
-            print(gold_heads_questions.size())
+            print('gold head ques', gold_heads_questions.size(), gold_heads_questions.byte().max())
             gold_heads_passages = passage['dep_head']
-            print(gold_heads_passages.size())
+            print('gold head pass', gold_heads_passages.size(), gold_heads_passages.byte().max())
             attention_question_sum = 0
             attention_passage_sum = 0
             if (gold_heads_questions < 0).byte().any():
-                print(gold_heads_questions)
+                print('gold head ques < 0', gold_heads_questions)
             if (gold_heads_passages < 0).byte().any():
-                print(gold_heads_passages)
+                print('gold head pass < 0', gold_heads_passages)
+            timesteps_question = list(parse_layer_output_question.size())[1]
+            print('timesteps ques', timesteps_question)
+            timesteps_passage = list(parse_layer_output_passage.size())[1]
+            print('timesteps pass', timesteps_passage)
+            for layer in parse_layer_attention_question:
+                print('parse layer o/p attention ques', layer.size())
+            for layer in parse_layer_attention_passage:
+                print('parse layer o/p attention pass', layer.size())
+
             for sample in range(batch_size):
                 # Add loss for each token in question
-                timesteps_question = list(parse_layer_output_question.size())[1]
-                print(timesteps_question)
                 for timestep_question in range(timesteps_question):
                     gold_head_question = gold_heads_questions[sample][timestep_question]
                     attention_question_sum = (attention_question_sum +
-                           parse_layer_attention_question[self.parse_attentionhead_layer]\
-                                      [sample][0][timestep_question][gold_head_question])
+                        parse_layer_attention_question[self.parse_attentionhead_layer]\
+                                [sample][0][timestep_question][gold_head_question])
+                    print('done question loss at timestep', timestep_question)
                     # Set dep_head attention in question to 1
                     parse_layer_attention_question[self.parse_attentionhead_layer]\
-                     [sample][0][timestep_question][gold_head_question].data=torch.ones([1])
+                     [sample][0][timestep_question][gold_head_question].data = torch.ones([1])
+                    print('done question assign at timestep', timestep_question)
                 attention_question_sum = attention_question_sum/timesteps_question
+                print('done question train-test mode', timestep_question)
                 #print(attention_question_sum)
 
                 # Add loss for each token in passage
-                timesteps_passage = list(parse_layer_output_passage.size())[1]
-                print(timesteps_passage)
                 for timestep_passage in range(timesteps_passage):
                     gold_head_passage = gold_heads_passages[sample][timestep_passage]
                     attention_passage_sum = (attention_passage_sum +
-                          parse_layer_attention_passage[self.parse_attentionhead_layer]\
-                        [sample][0][timestep_passage][gold_head_passage])
+                         parse_layer_attention_passage[self.parse_attentionhead_layer]\
+                                 [sample][0][timestep_passage][gold_head_passage])
+                    print('done pass loss at timestep', timestep_passage)
                     # Set dep_head attention in passage to 1
                     parse_layer_attention_passage[self.parse_attentionhead_layer]\
-                        [sample][0][timestep_passage][gold_head_passage].data=torch.ones([1])
+                        [sample][0][timestep_passage][gold_head_passage].data = torch.ones([1])
+                    print('done pass assign at timestep', timestep_passage)
                 attention_passage_sum = attention_passage_sum/timesteps_passage
+                print('done pass train-test mode', timestep_passage)
                 #print(attention_passage_sum)
         print('gold parse done')
 
