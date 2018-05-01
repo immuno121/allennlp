@@ -213,7 +213,7 @@ class BidirectionalAttentionFlow(Model):
         ### parse layer - question
         parse_layer_output_dict_question = self._parse_layer(encoded_question, question_lstm_mask)
         parse_layer_output_question = parse_layer_output_dict_question['output']
-        parse_encoded_question = self._dropout(parse_layer_output_question)
+        encoded_question = self._dropout(parse_layer_output_question)
 
         if self.parse_attentionhead_layer is not None:
             parse_layer_attention_question = parse_layer_output_dict_question['attention']
@@ -221,12 +221,12 @@ class BidirectionalAttentionFlow(Model):
         ### parse layer - passage
         parse_layer_output_dict_passage = self._parse_layer(encoded_passage, passage_lstm_mask)
         parse_layer_output_passage = parse_layer_output_dict_passage['output']
-        parse_encoded_passage = self._dropout(parse_layer_output_passage)
+        encoded_passage = self._dropout(parse_layer_output_passage)
 
         if self.parse_attentionhead_layer is not None:
             parse_layer_attention_passage  = parse_layer_output_dict_passage['attention']
 
-        encoding_dim = parse_encoded_question.size(-1)
+        encoding_dim = encoded_question.size(-1)
 
 
         ### Gold parse during training
