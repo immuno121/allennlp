@@ -349,8 +349,10 @@ class BidirectionalAttentionFlow(Model):
             loss += nll_loss(util.masked_log_softmax(span_end_logits, passage_mask), span_end.squeeze(-1))
             # Add dependency parse loss
             if self.parse_attentionhead_layer is not None:
-                loss += self._lambda * (1 - attention_question_sum)/batch_size
-                loss += self._lambda * (1 - attention_passage_sum)/batch_size
+                attention_question_loss = (1 - (attention_question_sum/batch_size))
+                attention_passage_loss = (1 - (attention_passage_sum/batch_size))
+                loss += self._lambda * attention_question_loss
+                loss += self._lambda * attention_passage_loss
 
             output_dict["loss"] = loss
 
