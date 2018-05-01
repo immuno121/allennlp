@@ -125,7 +125,7 @@ class StackedSelfAttentionEncoder(Seq2SeqEncoder):
         return False
 
     @overrides
-    def forward(self, inputs: torch.Tensor, mask: torch.Tensor, gold_parse): # pylint: disable=arguments-differ
+    def forward(self, inputs: torch.Tensor, mask: torch.Tensor): # pylint: disable=arguments-differ
         '''
         Returns
         -------
@@ -134,18 +134,15 @@ class StackedSelfAttentionEncoder(Seq2SeqEncoder):
         output :
         '''
         output_dict = dict()
+        output_dict['attention'] = []
         if self._use_positional_encoding:
             output = add_positional_features(inputs)
         else:
             output = inputs
-        num_layers = len(self._attention_layers)
-        print('num_layers', num_layers)
-        for (layer,
-             attention,
+        for (attention,
              feedforward,
              feedforward_layer_norm,
-             layer_norm) in zip(range(num_layers),
-                                self._attention_layers,
+             layer_norm) in zip(self._attention_layers,
                                 self._feedfoward_layers,
                                 self._feed_forward_layer_norm_layers,
                                 self._layer_norm_layers):
@@ -160,12 +157,10 @@ class StackedSelfAttentionEncoder(Seq2SeqEncoder):
                 # layers, so we exclude it here.
                 feedforward_output = feedforward_layer_norm(feedforward_output + cached_input)
             # shape (batch_size, sequence_length, hidden_dim)
-            if layer == 0:
-                attention_layer_output = attention(feedforward_output, mask, gold_parse)
-            else:
-                attention_layer_output = attention(feedforward_output, mask)
+            attention_layer_output = attention(feedforward_output, mask)
             attention_output = attention_layer_output['output']
-
+            attention = attention_layer_output['attention']
+            output_dict['attention'].append(attention)
             output = layer_norm(self.dropout(attention_output) + feedforward_output)
         output_dict['output'] = output
 
