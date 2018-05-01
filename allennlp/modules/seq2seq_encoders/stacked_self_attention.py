@@ -139,7 +139,6 @@ class StackedSelfAttentionEncoder(Seq2SeqEncoder):
         else:
             output = inputs
         num_layers = len(self._attention_layers)
-        print('num_layers', num_layers)
         for (layer,
              attention,
              feedforward,

@@ -140,19 +140,12 @@ class MultiHeadSelfAttention(Seq2SeqEncoder):
         ### goldparse = batch_size * timesteps [1, 2, 0] ==> [[0, 1, 0], [0, 0, 1], [1, 0, 0]]
         ## make one-hot vector from dependency parse
         if gold_parse is not None:
-            print('gold parse', type(gold_parse[0][0].data))
-            #print('gold parse', gold_parse)
-            print('Size of gold_parse in multihead ==> batch_size, t', gold_parse.size())
-            print('Size of attention in multihead ==> batch_size*num_heads, t, t', attention.size())
             attention = attention.view(batch_size, num_heads, timesteps, timesteps)
-            print('Size of attention after reshape in multihead ==> batch_size, num_heads, t, t', attention.size())
             attention[:, 0].data = torch.zeros(attention[:, 0].size())
-            print('Size of attention[:, 0] in multihead ==> batch_size, t, t', attention[:, 0].size())
             for sample in range(batch_size):
                 for timestep in range(timesteps):
                     attention[sample, 0, timestep, int(gold_parse[sample][timestep].data)].data = torch.ones([1])### batch_size * timesteps * timsteps
             attention = attention.view(batch_size * num_heads, timesteps, timesteps)
-        print('goldparse assignment in multihead attention done!')
         ###########################################################################
 
 
